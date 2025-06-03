@@ -1,7 +1,7 @@
 [project]
-name = "AI_ON"
+name = "cherry_ai"
 version = "0.0.1"
-description = "AI ON Hub"
+description = "Cherry AI - Python 3.12 Compatible ML/DL Environment"
 authors = [
     { name = "Gukil Jo", email = "gukil.jo@sk.com" },
 ]
@@ -9,18 +9,35 @@ readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.11,<4.0"
 dependencies = [
+    # 웹 프레임워크
     "streamlit==1.44.1",
+    # 기본 유틸리티
     "python-dotenv==1.1.0",
     "nest-asyncio==1.6.0",
-    "numpy==2.2.5",
-    "pandas==2.2.3",
-    "scipy==1.15.3",
-    "seaborn==0.13.2",
-    "scikit-learn==1.6.1",
-    "matplotlib==3.10.1",
     "pydantic==2.11.3",
     "PyYAML==6.0.2",
     "requests==2.32.3",
+    "tabulate==0.9.0",
+    # 기본 데이터 분석 패키지들 (TensorFlow 호환성을 위해 numpy 버전 조정)
+    "numpy>=1.26.0,<2.2.0",
+    "pandas>=2.2.0,<3.0.0",
+    "scipy>=1.15.0,<2.0.0",
+    "matplotlib>=3.10.0,<4.0.0",
+    "seaborn>=0.13.0,<1.0.0",
+    "scikit-learn>=1.6.0,<2.0.0",
+    # 🆕 Python 3.12 호환 ML 패키지들
+    "xgboost>=2.0.3,<3.0.0", # Python 3.12 지원
+    "lightgbm>=4.1.0,<5.0.0", # Python 3.12 지원
+    "catboost>=1.2.2,<2.0.0", # Python 3.12 지원
+    # 모델 해석 및 기타 유틸리티
+    "shap>=0.45.0,<1.0.0",
+    "statsmodels>=0.14.0,<1.0.0",
+    "openpyxl>=3.1.0,<4.0.0",
+    "plotly>=5.15.0,<6.0.0",
+    "wordcloud>=1.9.0,<2.0.0",
+    "Pillow>=11.0.0,<12.0.0", # 최신 버전으로 업데이트
+    "nltk>=3.8.0,<4.0.0",
+    # LangChain 및 MCP 관련
     "mcp==1.6.0",
     "langgraph==0.4.1",
     "langgraph-checkpoint==2.0.25",
@@ -33,12 +50,83 @@ dependencies = [
     "langchain-text-splitters==0.3.8",
     "langchain-openai==0.3.14",
     "langchain-mcp-adapters==0.0.9",
-    "tabulate==0.9.0",
+    "tensorflow>=2.19.0",
+    "torch>=2.7.0",
+    "torchvision>=0.22.0",
+    "torchaudio>=2.7.0",
 ]
 
-
 [project.optional-dependencies]
-dev = ["mypy>=1.11.1", "ruff>=0.6.1"]
+# 개발 도구
+dev = [
+    "mypy>=1.11.1", 
+    "ruff>=0.6.1",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0"
+]
+
+# 🆕 CPU 전용 딥러닝 (Python 3.12 호환)
+cpu = [
+    "tensorflow>=2.19.0,<3.0.0",      # Python 3.12 지원, numpy 2.x 호환
+    "torch>=2.1.0,<3.0.0",            # Python 3.12 지원
+    "torchvision>=0.16.0,<1.0.0",     # Python 3.12 지원
+    "torchaudio>=2.1.0,<3.0.0",       # Python 3.12 지원
+]
+
+# 🆕 GPU 가속 딥러닝 (Python 3.12 + NVIDIA GPU)
+gpu = [
+    "tensorflow>=2.19.0,<3.0.0",      # Python 3.12 + GPU 지원, numpy 2.x 호환
+    "torch>=2.1.0,<3.0.0",            # Python 3.12 + CUDA 지원
+    "torchvision>=0.16.0,<1.0.0",     # Python 3.12 + CUDA 지원
+    "torchaudio>=2.1.0,<3.0.0",       # Python 3.12 + CUDA 지원
+]
+
+# 🆕 고급 ML/DL 연구용 패키지 (Python 3.12 호환)
+research = [
+    "transformers>=4.36.0,<5.0.0",    # Python 3.12 지원
+    "datasets>=2.16.0,<3.0.0",        # Python 3.12 지원  
+    "accelerate>=0.25.0,<1.0.0",      # Python 3.12 지원
+    "evaluate>=0.4.0,<1.0.0",         # Python 3.12 지원
+    "tokenizers>=0.15.0,<1.0.0",      # Python 3.12 지원
+]
+
+# 🆕 AutoML 및 하이퍼파라미터 최적화 (Python 3.12 호환)
+automl = [
+    "optuna>=3.5.0,<4.0.0",           # Python 3.12 지원
+    "hyperopt>=0.2.7,<1.0.0",         # Python 3.12 지원
+    "scikit-optimize>=0.9.0,<1.0.0",  # Python 3.12 지원
+]
+
+# 🆕 MLOps 및 실험 추적 (Python 3.12 호환)
+mlops = [
+    "mlflow>=2.9.0,<3.0.0",           # Python 3.12 지원
+    "wandb>=0.16.0,<1.0.0",           # Python 3.12 지원
+    "tensorboard>=2.15.0,<3.0.0",     # Python 3.12 지원
+]
+
+# 🆕 확장 시각화 (Python 3.12 호환)
+visualization = [
+    "bokeh>=3.3.0,<4.0.0",            # Python 3.12 지원
+    "altair>=5.2.0,<6.0.0",           # Python 3.12 지원  
+    "holoviews>=1.18.0,<2.0.0",       # Python 3.12 지원
+    "datashader>=0.16.0,<1.0.0",      # Python 3.12 지원
+]
+
+# 🆕 전체 패키지 (Python 3.12 + GPU + 모든 기능)
+full = [
+    "tensorflow>=2.19.0,<3.0.0",      # numpy 2.x 호환
+    "torch>=2.1.0,<3.0.0", 
+    "torchvision>=0.16.0,<1.0.0",
+    "torchaudio>=2.1.0,<3.0.0",
+    "transformers>=4.36.0,<5.0.0",
+    "datasets>=2.16.0,<3.0.0", 
+    "accelerate>=0.25.0,<1.0.0",
+    "optuna>=3.5.0,<4.0.0",
+    "mlflow>=2.9.0,<3.0.0",
+    "wandb>=0.16.0,<1.0.0",
+    "bokeh>=3.3.0,<4.0.0",
+    "altair>=5.2.0,<6.0.0",
+]
 
 [build-system]
 requires = ["setuptools>=73.0.0", "wheel"]
@@ -49,7 +137,6 @@ packages = ["langgraph.templates.react_agent", "react_agent"]
 [tool.setuptools.package-dir]
 "langgraph.templates.react_agent" = "src/react_agent"
 "react_agent" = "src/react_agent"
-
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]
@@ -81,4 +168,24 @@ convention = "google"
 [dependency-groups]
 dev = [
     "langgraph-cli[inmem]>=0.1.89",
+]
+
+# 🆕 Python 3.12 호환 의존성 그룹
+ml-cpu-py312 = [
+    "tensorflow>=2.19.0,<3.0.0",      # numpy 2.x 호환
+    "torch>=2.1.0,<3.0.0",
+    "xgboost>=2.0.3,<3.0.0",
+    "lightgbm>=4.1.0,<5.0.0", 
+    "catboost>=1.2.2,<2.0.0",
+    "shap>=0.45.0,<1.0.0",
+]
+
+ml-gpu-py312 = [
+    "tensorflow>=2.19.0,<3.0.0",      # GPU + Python 3.12, numpy 2.x 호환
+    "torch>=2.1.0,<3.0.0",            # CUDA + Python 3.12
+    "torchvision>=0.16.0,<1.0.0",
+    "xgboost>=2.0.3,<3.0.0",
+    "lightgbm>=4.1.0,<5.0.0",
+    "catboost>=1.2.2,<2.0.0",
+    "shap>=0.45.0,<1.0.0",
 ]
