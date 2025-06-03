@@ -1,0 +1,9 @@
+---
+description: 패키지 설치 또는 streamlit 실행
+globs: 
+alwaysApply: false
+---
+uv 가상화 환경 사용해
+신규 패키지 설치 필요하면 uv add로 추가해주고 pyproject.toml에도 필요한 내용 반영해줘
+
+streamlit 실행시에 .venv\Scripts\activate 로 가상 환경 들어가서 streamlit run {file} 수행해줘
