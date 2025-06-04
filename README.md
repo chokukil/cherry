@@ -66,10 +66,10 @@ streamlit run Home.py
 ```
 
 ### 2. MCP Server 실행
-'''base
+```base
 uv run mcp_file_management.py
 uv run mcp_private_rag.py
-'''
+```
 
 
 ## 💡 팁
