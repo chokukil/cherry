@@ -65,6 +65,16 @@ uv pip install -e .
 streamlit run Home.py
 ```
 
+### 2. MCP Server 실행
+'''base
+# 파일 매니저
+uv run mcp_file_management.py
+
+# 개인 문서함
+uv run mcp_private_rag.py
+'''
+
+
 ## 💡 팁
 
 1. **설치 전 시스템 요구사항 확인**

@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "private-rag": {
+      "url": "http://localhost:8005/sse",
+      "description": "A Retriever that can retrieve information from your personal document database built from multiple PDF files.",
+      "EMP_NO": "2055186",
+      "EMP_NAME": "조국일",
+      "transport": "sse"
+    },
+    "file-management": {
+      "url": "http://localhost:8006/sse",
+      "description": "A file management tool that can read, write, copy, move, delete files and list directories.",
+      "EMP_NO": "2055186",
+      "EMP_NAME": "조국일",
+      "transport": "sse"
+    }
+  }
+}

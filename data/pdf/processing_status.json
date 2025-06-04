@@ -1,0 +1,21 @@
+{
+  "last_updated": "2025-06-05T00:12:58.477214",
+  "processed_files": {
+    "patent.pdf": {
+      "hash": "03c455b9ace0d740fee2dae5aa636306",
+      "processed_date": "2025-06-05T00:10:37.022074",
+      "document_count": 57,
+      "file_size": 224587
+    },
+    "ViT.pdf": {
+      "hash": "7f1ba6e93e08ec7fc3f4fa1c8a255ac0",
+      "processed_date": "2025-06-05T00:12:54.711590",
+      "document_count": 80,
+      "file_size": 3743814
+    }
+  },
+  "vectorstore_info": {
+    "total_documents": 137,
+    "last_rebuild": "2025-06-05T00:12:58.476183"
+  }
+}

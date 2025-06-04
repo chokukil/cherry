@@ -152,6 +152,65 @@ try:
 except ImportError:
     WORDCLOUD_AVAILABLE = False
 
+# ─── Async Pandas Agent Wrapper  ───────────────────────────────────────────────
+from typing import Any, Dict, Optional
+import asyncio, threading
+from langchain_core.runnables import RunnableConfig
+
+class AsyncPandasAgentWrapper:
+    """
+    비동기 스트리밍용 래퍼.
+    - astream : pandas_agent.stream() → 토큰/스텝 단위 실시간 전달
+    - ainvoke : pandas_agent.invoke()  → 백그라운드 스레드에서 실행
+    """
+
+    def __init__(self, pandas_agent):
+        self.pandas_agent = pandas_agent
+
+    # --- 실시간 스트리밍 -------------------------------------------------------
+    async def astream(
+        self,
+        inputs: Dict[str, Any],
+        config: Optional[RunnableConfig] = None,
+    ):
+        loop = asyncio.get_running_loop()
+        q = asyncio.Queue()                             # 스레드→코루틴 브리지
+
+        def _producer():
+            try:
+                for step in self.pandas_agent.stream(inputs, config=config):
+                    # stream() 이 내보내는 각 step 을 즉시 큐에 push
+                    asyncio.run_coroutine_threadsafe(q.put(step), loop)
+            finally:
+                # sentinel 로 종료 알림
+                asyncio.run_coroutine_threadsafe(q.put(None), loop)
+
+        # blocking stream 은 별도 스레드에서
+        threading.Thread(target=_producer, daemon=True).start()
+
+        # 큐에서 받아 UI 콜백으로 그대로 전달
+        while True:
+            item = await q.get()
+            if item is None:
+                break
+            yield item           # → get_streaming_callback 로 전달
+            await asyncio.sleep(0)  # 다른 태스크에 제어권 양보
+
+    # --- 단일 호출 (blocking) ---------------------------------------------------
+    async def ainvoke(
+        self,
+        inputs: Dict[str, Any],
+        config: Optional[RunnableConfig] = None,
+    ):
+        """
+        pandas_agent.invoke 를 백그라운드 스레드에서 실행해 await 가능하게 만듭니다.
+        """
+        return await asyncio.to_thread(
+            self.pandas_agent.invoke,
+            inputs,
+            config=config,
+        )
+
 # Base directory for app icons
 ASSETS_DIR = "assets"
 URL_BASE = "http://localhost:2025/Agent?id="
@@ -994,6 +1053,7 @@ def create_data_analysis_environment(df=None):
         "models": models if TF_AVAILABLE else None,
         "optimizers": optimizers if TF_AVAILABLE else None,
         "callbacks": callbacks if TF_AVAILABLE else None,
+        "Sequential": models.Sequential if TF_AVAILABLE else None,
         
         # 🆕 고급 부스팅 모델들
         "xgb": xgb if XGB_AVAILABLE else None,
