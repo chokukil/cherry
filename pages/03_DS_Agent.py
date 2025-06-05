@@ -2761,7 +2761,7 @@ if "session_initialized" not in st.session_state:
                             st.session_state.prompt_selectbox = ""
                             st.session_state.tool_selectbox = ""
                             st.session_state.loaded = True
-                            st.session_state.app_title = app.get("title", "Universal Agent")
+                            st.session_state.app_title = app.get("title", "Data Science Agent")
                             success = st.session_state.event_loop.run_until_complete(initialize_session(st.session_state.pending_mcp_config))
                             st.session_state.session_initialized = success
                             if success:
@@ -3156,7 +3156,7 @@ with st.sidebar:
 
 
 # --- Main Area ---
-title_text = f"🤖 {st.session_state.get('app_title', 'Universal Agent')}"
+title_text = f"🤖 {st.session_state.get('app_title', 'Data Science Agent')}"
 st.title(title_text)
 st.markdown("---")
 
